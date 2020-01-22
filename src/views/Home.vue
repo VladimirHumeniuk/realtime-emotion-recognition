@@ -58,6 +58,14 @@ export default {
     async init() {
       // load the load mobilenet and create a KnnClassifier
       this.classifier = knnClassifier.create();
+
+      const datasetJson = localStorage.getItem("my-data");
+
+      if (datasetJson) {
+        const datasetObj = JSON.parse(datasetJson);
+        const dataset = this.fromDatasetObject(datasetObj);
+        this.classifier.setClassifierDataset(dataset);
+      }
       this.mobilenet = await mobilenetModule.load();
     },
     trainModel() {
@@ -65,17 +73,54 @@ export default {
       this.class = selected.options[selected.selectedIndex].value;
       this.addExample();
     },
+    async toDatasetObject(dataset) {
+      const result = await Promise.all(
+        Object.entries(dataset).map(async ([classId, value]) => {
+          const data = await value.data();
+
+          return {
+            classId: Number(classId),
+            data: Array.from(data),
+            shape: value.shape
+          };
+        })
+      );
+
+      return result;
+    },
+    fromDatasetObject(datasetObject) {
+      return Object.entries(datasetObject).reduce(
+        (result, [indexString, { data, shape }]) => {
+
+          console.log('🚧  indexString =>', indexString)
+
+          const tensor = tf.tensor2d(data, shape);
+          const index = Number(indexString);
+
+          result[index] = tensor;
+
+          return result;
+        },
+        {}
+      );
+    },
     async addExample() {
       const img = tf.browser.fromPixels(this.$children[0].webcam.webcamElement);
       const logits = this.mobilenet.infer(img, "conv_preds");
       this.classifier.addExample(logits, parseInt(this.class));
+
+      const dataset = this.classifier.getClassifierDataset();
+      const datasetObj = await this.toDatasetObject(dataset);
+      const jsonStr = JSON.stringify(datasetObj);
+
+      localStorage.setItem("my-data", jsonStr);
     },
     async getEmotion() {
       const img = tf.browser.fromPixels(this.$children[0].webcam.webcamElement);
       const logits = this.mobilenet.infer(img, "conv_preds");
       const pred = await this.classifier.predictClass(logits);
       console.log(pred);
-      this.detected_e = this.emotions[pred.classIndex];
+      this.detected_e = this.emotions[pred.label];
       this.registerEmotion();
     },
     changeOption() {
@@ -83,11 +128,13 @@ export default {
       this.mode = selected.options[selected.selectedIndex].value;
     },
     registerEmotion() {
-      axios.post("http://localhost:3128/callback", {
-        "emotion": this.detected_e
-      }).then( () => {
-        alert("Thanks for letting us know how you feel");
-      });
+      axios
+        .post("http://localhost:3128/callback", {
+          emotion: this.detected_e
+        })
+        .then(() => {
+          alert("Thanks for letting us know how you feel");
+        });
     }
   }
 };

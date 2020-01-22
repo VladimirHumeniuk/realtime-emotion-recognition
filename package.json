@@ -2,6 +2,7 @@
   "name": "emotion-feedback",
   "version": "0.1.0",
   "private": true,
+  "author": "Valeriia Kuriakova",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -30,6 +31,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "prettier": "^1.19.1",
+    "pusher-js": "^5.0.3",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
     "typescript": "~3.5.3",

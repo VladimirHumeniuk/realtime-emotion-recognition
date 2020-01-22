@@ -14,7 +14,7 @@
  * limitations under the License.
  * =============================================================================
  */
-import * as tf from '@tensorflow/tfjs';
+import * as tf from "@tensorflow/tfjs";
 
 /**
  * A class that wraps webcam video elements to capture Tensor4Ds.
@@ -36,7 +36,7 @@ export class Webcam {
       // Reads the image as a Tensor from the webcam <video> element.
       const webcamImage = tf.browser.fromPixels(this.webcamElement);
 
-      // Crop the image so we're using the center square of the rectangular
+      // Crop the image so we"re using the center square of the rectangular
       // webcam.
       const croppedImage = this.cropImage(webcamImage);
 
@@ -94,7 +94,7 @@ export class Webcam {
           stream => {
             this.webcamElement.srcObject = stream;
             this.webcamElement.addEventListener(
-              'loadeddata',
+              "loadeddata",
               async () => {
                 this.adjustVideoSize(
                   this.webcamElement.videoWidth,
@@ -106,6 +106,7 @@ export class Webcam {
             );
           },
           error => {
+            console.log('Webcam Error:', error);
             reject();
           }
         );

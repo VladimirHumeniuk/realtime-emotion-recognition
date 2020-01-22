@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import Pusher from "pusher-js";
+
 export default {
   name: "Dashboard",
   data: () => {
@@ -25,25 +27,25 @@ export default {
       e_channel: null
     };
   },
-  mounted: () => {
+  mounted: function() {
     this.init();
   },
   methods: {
-    init () {
+    init() {
       // create a new pusher object
-      this.pusher_obj = new Pusher('00a4a336a18e58e5fc09',{
-          cluster: 'eu',
-          encrypted: true
+      this.pusher_obj = new Pusher("00a4a336a18e58e5fc09", {
+        cluster: "eu",
+        encrypted: true
       });
       // create a new channel
-      this.e_channel = this.pusher_obj.subscribe('emotion_channel');
+      this.e_channel = this.pusher_obj.subscribe("emotion_channel");
       // bind the channel to the new event and specify what should be done
       let self = this;
-      this.e_channel.bind('new_emotion', function(data) {
+      this.e_channel.bind("new_emotion", function(data) {
         //  increment the counnt for the emotion by one
         self.emotions[`${data.emotion}`] += 1;
       });
-    },
-  },
-}
+    }
+  }
+};
 </script>
