@@ -2,10 +2,6 @@
 
 This repository shows how to build a realtime emotion recognintion application that updates a dashboard with the recognized emotions in realtime.
 
-![Application Demo](./demo.gif)
-
-Link to [Tutorial](https://pusher.com/tutorials/emotion-recognition-tensorflow)
-
 ## Prerequisites
 
 - [Node](https://nodejs.org) version 8.9 or greater
