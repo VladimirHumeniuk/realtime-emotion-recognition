@@ -47,8 +47,7 @@ export default {
       mobilenet: null,
       class: null,
       detected_e: null,
-      mode: "train",
-      trainedData: []
+      mode: "train"
     };
   },
   mounted: function() {
@@ -65,13 +64,16 @@ export default {
         const datasetObj = JSON.parse(datasetJson);
         const dataset = this.fromDatasetObject(datasetObj);
         this.classifier.setClassifierDataset(dataset);
-      }
+      };
+
       this.mobilenet = await mobilenetModule.load();
     },
     trainModel() {
       let selected = document.getElementById("emotion_options");
       this.class = selected.options[selected.selectedIndex].value;
       this.addExample();
+
+      // writeJsonFile('./test.json')
     },
     async toDatasetObject(dataset) {
       const result = await Promise.all(
@@ -91,8 +93,6 @@ export default {
     fromDatasetObject(datasetObject) {
       return Object.entries(datasetObject).reduce(
         (result, [indexString, { data, shape }]) => {
-
-          console.log('🚧  indexString =>', indexString)
 
           const tensor = tf.tensor2d(data, shape);
           const index = Number(indexString);

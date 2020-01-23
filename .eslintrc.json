@@ -1,0 +1,9 @@
+{
+  "rules": {
+      "semi": ["warn", "always"],
+      "quotes": ["warn", "double"]
+  },
+  "extends": [
+    "plugin:vue/essential"
+  ]
+}

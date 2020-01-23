@@ -15,8 +15,7 @@ const pusher = new Pusher({
   appId: process.env.PUSHER_APPID,
   key: process.env.PUSHER_APPKEY,
   secret: process.env.PUSHER_APPSECRET,
-  cluster: process.env.PUSHER_APPCLUSTER,
-  encrypted: true
+  cluster: process.env.PUSHER_APPCLUSTER
 });
 
 //  create application routes

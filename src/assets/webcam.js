@@ -106,7 +106,7 @@ export class Webcam {
             );
           },
           error => {
-            console.log('Webcam Error:', error);
+            console.log("Webcam Error:", error);
             reject();
           }
         );

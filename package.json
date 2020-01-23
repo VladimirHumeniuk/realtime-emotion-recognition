@@ -2,7 +2,6 @@
   "name": "emotion-feedback",
   "version": "0.1.0",
   "private": true,
-  "author": "Valeriia Kuriakova",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
