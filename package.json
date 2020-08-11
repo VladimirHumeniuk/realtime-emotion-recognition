@@ -32,7 +32,7 @@
     "prettier": "^1.19.1",
     "pusher-js": "^5.0.3",
     "sass": "^1.23.7",
-    "sass-loader": "^8.0.0",
+    "sass-loader": "^9.0.3",
     "typescript": "~3.5.3",
     "vue-template-compiler": "^2.6.10"
   }
